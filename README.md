@@ -12,6 +12,42 @@ to see an example of an add-on which will register a node in the F5 load balance
 it is deployed.
 
 
+# Implementation
+
+It makes use of [BOSH triggers](https://bosh.io/docs/job-lifecycle.html): pre-start, post-start, post-deploy
+and drain to call ansible playbooks available from other releases/jobs. Also, it allows to define
+specific playbooks to run on bootstrap nodes (master/slave setup) or non-bootstrap nodes. 
+
+Playbooks from add-on releases have to be placed on `<job>/ansible` folder and the job `ansible-hooks`
+will search and order those playbooks depending on the name.
+
+
+# Development
+
+After cloning this repository, run:
+
+```
+./bosh_prepare
+```
+
+It will download all sources specified in the spec file (commented out) of each job, then you
+can create the release with:
+```
+bosh create release --force --name ansible 
+```
+
+and upload to BOSH director:
+
+```
+bosh upload release
+```
+
+
+# Author
+
+Jose Riguera Lopez (jose.riguera@springer.com)
+
+
 # License
 
 Apache 2.0 License
