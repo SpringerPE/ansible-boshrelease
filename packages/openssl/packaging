@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
+set -e -x
+
+echo "Extracting openssl ... "
+tar xvf openssl/openssl-1.0.2h.tar.gz
+
+echo "Building openssl ... "
+export CPPFLAGS="-I/var/vcap/packages/zlib/include ${CPPFLAGS}"
+export LDFLAGS="-L/var/vcap/packages/zlib/lib ${LDFLAGS}"
+export LIBRARY_PATH="/var/vcap/packages/zlib/lib:${LIBRARY_PATH}"
+export CFLAGS="-fPIC ${CFLAGS}"
+
+pushd openssl-1.0.2h
+  ./config --prefix=${BOSH_INSTALL_TARGET} --openssldir=${BOSH_INSTALL_TARGET}/openssl shared zlib
+  make
+  make install
+popd

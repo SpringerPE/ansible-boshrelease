@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# The purpose of this script is run ansible playbooks from others jobs.
+# Deploy playbooks from other jobs will be ordered by lexical order
+# from a predefined basic pattern "*deploy.yml", for example:
+# jobs/zz/ansible/00-deploy.yml, jobs/bb/ansible/10-deploy.yml. jobs/aa/ansible/99-deploy.yml
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Load job properties
+source /var/vcap/jobs/ansible-deploy/data/properties.sh
+
+# if drain scripts are disable, exit
+[ "$JOB_DEPLOY" == "0" ] && exit 0
+
+# Setup env vars and folders for the ctl script
+source /var/vcap/jobs/ansible-deploy/packages/ansible/_helpers/setup.sh "ansible-deploy"
+
+# Load ansible environment variables. You can predefine the
+# ANSIBLE_CONFIG variable to point to your own custom configuration
+source /var/vcap/jobs/ansible-deploy/data/env.sh
+
+# Load function lib (alway before setup, there are some global variables needed)
+source /var/vcap/jobs/ansible-deploy/packages/ansible/_helpers/lib.sh
+
+# Load python library path for dynamic libs
+ldconf "$LD_LIBRARY_PATH"
+
+# Run!
+JOB_TYPE="deploy"
+run_all "$JOB_BASE_DIR" "$JOB_TYPE" "$JOB_DEPLOY_NAME"
+exit $?
+

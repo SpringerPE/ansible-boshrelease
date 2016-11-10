@@ -1,0 +1,10 @@
+---
+name: setuptools
+
+dependencies:
+- zlib
+- openssl
+- python27
+
+files:
+- setuptools/setuptools-25.0.0.tar.gz   # https://pypi.python.org/packages/a0/85/24d3b6b331b056180f28ce19658a515364dca58aa9e88eff2ac39bf825f2/setuptools-25.0.0.tar.gz

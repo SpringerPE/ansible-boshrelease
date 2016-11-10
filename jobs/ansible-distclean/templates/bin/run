@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# The purpose of this script is run ansible playbooks from others jobs.
+# Distclean playbooks from other jobs will be ordered by lexical order
+# from a predefined basic pattern "*distclean.yml", for example:
+# jobs/zz/ansible/00-distclean.yml, jobs/bb/ansible/10-distclean.yml. jobs/aa/ansible/99-distclean.yml
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Load job properties
+source /var/vcap/jobs/ansible-distclean/data/properties.sh
+
+# if drain scripts are disable, exit
+[ "$JOB_DISTCLEAN" == "0" ] && exit 0
+
+# Setup env vars and folders for the ctl script
+source /var/vcap/jobs/ansible-distclean/packages/ansible/_helpers/setup.sh "ansible-distclean"
+
+# Load ansible environment variables. You can predefine the
+# ANSIBLE_CONFIG variable to point to your own custom configuration
+source /var/vcap/jobs/ansible-distclean/data/env.sh
+
+# Load function lib (alway before setup, there are some global variables needed)
+source /var/vcap/jobs/ansible-distclean/packages/ansible/_helpers/lib.sh
+
+# Load python library path for dynamic libs
+ldconf "$LD_LIBRARY_PATH"
+
+# Run!
+JOB_TYPE="distclean"
+run_all "$JOB_BASE_DIR" "$JOB_TYPE" "$JOB_DISTCLEAN_NAME"
+exit $?
+

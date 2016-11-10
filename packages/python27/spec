@@ -1,0 +1,10 @@
+---
+name: python27
+
+dependencies:
+- zlib
+- bzip2
+- openssl
+
+files:
+- python/Python-2.7.12.tar.xz   # https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tar.xz

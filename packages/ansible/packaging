@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
+set -e -x
+
+echo "Extracting pycrypto ..."
+tar xvf ansible/pycrypto-2.6.1.tar.gz
+
+echo "Extracting jinja ..."
+tar xvf ansible/jinja-2.8.tar.gz
+
+echo "Extracting paramiko ..."
+tar xvf ansible/paramiko-2.0.2.tar.gz
+
+echo "Extracting ansible ..."
+tar xvf ansible/ansible-2.2.0.0.tar.gz
+
+echo "Creating python site packages folder ..."
+mkdir -p ${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages
+
+echo "Setting the PYTHONPATH with setuptools and ansible site packages ..."
+PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
+PYTHONPATH="/var/vcap/packages/setuptools/lib/python2.7/site-packages:${PYTHONPATH}"
+PYTHONPATH="/var/vcap/packages/pip/lib/python2.7/site-packages:${PYTHONPATH}"
+export PYTHONPATH
+
+echo "Setting setuptools build sources ..."
+CPATH="/var/vcap/packages/libffi/lib/libffi-3.2.1/include"
+CPATH="/var/vcap/packages/libyaml/include:${CPATH}"
+export CPATH
+LIBRARY_PATH="/var/vcap/packages/libffi/lib"
+LIBRARY_PATH="/var/vcap/packages/libyaml/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="/var/vcap/packages/openssl/lib:${LIBRARY_PATH}"
+export LIBRARY_PATH
+export LD_LIBRARY_PATH="${LIBRARY_PATH}"
+
+
+echo "Installing pycrypto ..."
+pushd pycrypto-2.6.1
+  /var/vcap/packages/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+popd
+
+echo "Installing jinja ..."
+pushd jinja-2.8
+  /var/vcap/packages/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+popd
+
+echo "Installing paramiko ..."
+pushd paramiko-2.0.2
+  /var/vcap/packages/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+popd
+
+echo "Installing ansible ..."
+pushd ansible-2.2.0.0
+  /var/vcap/packages/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+popd
+
+# Install aditional plugins
+mkdir -p ${BOSH_INSTALL_TARGET}/plugins
+plugins=$(find plugins -maxdepth 1 -type d  ! -path plugins)
+if [ "${plugins}" ]; then
+  echo "Adding plugins ..."
+  for plugin in ${plugins}; do
+    cp -av ${plugin}/* ${BOSH_INSTALL_TARGET}/plugins/
+  done
+fi
+
+# Install libraries
+mkdir -p ${BOSH_INSTALL_TARGET}/library
+libs=$(find library -maxdepth 1 -type d  ! -path library)
+if [ "${libs}" ]; then
+  echo "Adding libraries ..."
+  for lib in ${libs}; do
+      cp -av ${lib}/* ${BOSH_INSTALL_TARGET}/library/
+  done
+fi
+
+# Install roles
+mkdir -p ${BOSH_INSTALL_TARGET}/roles
+roles=$(find roles -maxdepth 1 -type d  ! -path roles)
+if [ "${roles}" ]; then
+  echo "Adding roles ..."
+  for role in ${roles}; do
+      cp -av ${role}/* ${BOSH_INSTALL_TARGET}/roles/
+  done
+fi
+
+# Install additional dependencies
+echo "Installing additional requirements.txt ..."
+if [ -e "requirements.txt" ]; then
+    cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
+    /var/vcap/packages/pip/bin/pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+fi
+
+# Install shell helpers
+echo "Adding shell helpers ..."
+cp -av _helpers ${BOSH_INSTALL_TARGET}/

@@ -1,0 +1,124 @@
+---
+name: ansible
+
+description: Wrapper scripts to run ansible binary programs on a VM
+
+packages:
+- bzip2
+- zlib
+- libyaml
+- libffi
+- openssl
+- python27
+- setuptools
+- pip
+- ansible
+
+templates:
+  bin/run: bin/run
+  config/ansible.cfg.erb: config/ansible.cfg
+  data/properties.sh.erb: data/properties.sh
+  data/env.sh.erb: data/env.sh
+  config/inventory.erb: config/inventory
+  config/vault.pass.erb: config/vault.pass
+  config/private.key.erb: config/private.key
+
+properties:
+  ansible.env:
+    description: Key-value hash to setup additional environment variables.
+    default: {}
+  ansible.binary:
+    description: Ansible binary to execute.
+    default: "ansible-playbook"
+  ansible.args:
+    description: Arguments for the ansible binary.
+    example: "-i bosh-inventory /var/vcap/jobs/another-job/ansible/playbook.yml"
+
+  ansible.inventory:
+    description: Default inventory for ansible playbooks.
+    default: |+
+      [localhost]
+      localhost ansible_python_interpreter=/var/vcap/packages/python27/bin/python ansible_connection=local ansible_become=false
+  ansible.private_key:
+    description: Use this private key file for ssh authentication in remote hosts.
+  ansible.vault_password:
+    description: Vault password.
+  ansible.remote_user:
+    description: Default username ansible will connect as for ansible-playbook.
+    default: root
+  ansible.remote_tmp:
+    description: Temporary folder on remote hosts.
+    default: "$HOME/.ansible/tmp"
+  ansible.remote_port:
+    description: Default SSH port to connect to remote hosts.
+    default: 22
+  ansible.become_method:
+    description: Implementation to use for privilege scalation.
+    default: sudo
+  ansible.become_user:
+    description: User used for privilege escalation.
+    default: root
+  ansible.command_executable:
+    description: Default shell for command module.
+    default: "/bin/sh"
+  ansible.transport:
+    description: Implementation to use for ssh connections, OpenSSH based if ControlPersist is supported, otherwise paramiko.
+    default: smart
+  ansible.forks: 
+    description: Number of parallel processes to spawn.
+    default: 5
+  ansible.internal_poll_interval:
+    description: Internal processes polling.
+    default: "0.001"
+  ansible.host_key_checking:
+    description: SSH host key checking.
+    default: True
+  ansible.module_set_locale:
+    description: Set neutral locale when executing modules on remote systems.
+    default: True
+  ansible.includes_static:
+    description: Determine whether includes in tasks and handlers are static or dynamic.
+    default: False
+  ansible.force_handlers:
+    description: Notify handlers to run on a host even if a failure occurs on that host.
+    default: True
+  ansible.hash_behaviour:
+    description: If inventory variables overlap, policy to replace or merge them.
+    default: replace
+  ansible.private_role_vars:
+    description: Variables from roles will be visible in the global variable scope.
+    default: False
+  ansible.managed:
+    description: String to be inserted in rendered templates.
+    default: "Ansible managed"
+  ansible.display_skipped_hosts:
+    description: ansible-playbook will display "Skipping [host]" if it determines a task should not be run on a host.
+    default: False
+  ansible.display_args_to_stdout:
+    description: if needed ansible-playbook will construct a header that includes the task's action but not the task's args.
+    default: False
+  ansible.gathering:
+    description: Default policy of facts gathering from remote systems.
+    default: "smart"
+  ansible.gather_subset:
+    description: By default gathering retrieves all facts subsets, string list separated by commas of subsets to gather or skip.
+    default: "all"
+  ansible.callback_whitelist:
+    description: Enable additional callback plugins. String list separated by commas.
+    default: "timer"
+  ansible.no_target_syslog:
+    description: Prevents logging of tasks, but only on the targets, data is still logged on the master/controller.
+    default: False
+  ansible.allow_world_readable_tmpfiles:
+    description: Raise an error if a task has no choice but to create world readable temp files to execute a module on the remote host.
+    default: False
+  ansible.ssh_proxy_host:
+    description: Use an OpenSSH like ProxyCommand for proxying all Paramiko SSH connections through a bastion or jump host.
+  ansible.ssh_connection_args:
+    description: ssh arguments to use with OpenSSH connections.
+  ansible.ssh_executable:
+    description: Path to ssh executable.
+  ansible.ssh_connection_pipelining:
+    description: Enabling pipelining reduces the number of SSH operations required to execute a module on the remote server.
+    default: False
+

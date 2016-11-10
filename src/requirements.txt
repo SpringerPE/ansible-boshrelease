@@ -1,0 +1,5 @@
+# Aditional packages for extras ansible modules (E)
+f5-sdk==1.6.0
+bigsuds==1.0.4
+cfconfigurator==0.2.0
+netaddr==0.7.18

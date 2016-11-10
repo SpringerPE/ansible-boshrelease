@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# job template binding variables
+<% if_p("ansible.env") do |environment| %>
+<% environment.each do |key, value| %>
+export <%= key %>="<%= value %>"
+<% end %>
+<% end %>
+
+# job name & index of this VM within cluster
+export DEPLOYMENT_NAME="<%= spec.deployment %>"
+
+# e.g. JOB_NAME=redis, JOB_INDEX=0
+export JOB_NAME='<%= name %>'
+export JOB_INDEX="<%= spec.index %>"
+# full job name, like redis/0 or webapp/3
+export JOB_FULL="$JOB_NAME/$JOB_INDEX"
+export JOB_AZ="<%= spec.az %>"
+export JOB_DNS_DOMAIN="<%= spec.dns_domain_name %>"
+
+export INSTANCE_BOOTSTRAP=<% if spec.bootstrap == true || spec.bootstrap =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+export INSTANCE_NAME="<%= spec.name %>"
+# spec.networks.send(spec.networks.methods(false).first).ip
+# spec.networks.to_h.values.first.ip
+export INSTANCE_ID="<%= spec.id %>"
+export INSTANCE_ADDRESS="<%= spec.address %>"
+export INSTANCE_IP="<%= spec.ip %>"
+export INSTANCE_NETWORKS="<%= spec.networks %>"
+
+# Settings for Ansible Job
+export JOB_XBOOTSTRAP=<% if p("ansible.enable_xbootstrap") == true || p("ansible.enable_xbootstrap") =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+export JOB_PRE_START=<% if p("ansible.enable_pre_start") == true || p("ansible.enable_pre_start") =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+export JOB_POST_START=<% if p("ansible.enable_post_start") == true || p("ansible.enable_post_start") =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+export JOB_POSTDEPLOY=<% if p("ansible.enable_postdeploy") == true || p("ansible.enable_postdeploy") =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+export JOB_DRAIN=<% if p("ansible.enable_drain") == true || p("ansible.enable_drain") =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+
+export JOB_PRE_BOOTSTRAP_NAME='<%= p("ansible.pre_bootstrap", "pre-bootstrap.yml") %>'
+export JOB_PRE_NONBOOTSTRAP_NAME='<%= p("ansible.pre_nonbootstrap", "pre-nonbootstrap.yml") %>'
+export JOB_PRE_START_NAME='<%= p("ansible.pre_start", "pre-start.yml") %>'
+export JOB_POST_BOOTSTRAP_NAME='<%= p("ansible.post_bootstrap", "post-bootstrap.yml") %>'
+export JOB_POST_NONBOOTSTRAP_NAME='<%= p("ansible.post_nonbootstrap", "post-nonbootstrap.yml") %>'
+export JOB_POST_START_NAME='<%= p("ansible.post_start", "post-start.yml") %>'
+export JOB_POSTDEPLOY_BOOTSTRAP_NAME='<%= p("ansible.postdeploy_bootstrap", "postdeploy-bootstrap.yml") %>'
+export JOB_POSTDEPLOY_NONBOOTSTRAP_NAME='<%= p("ansible.postdeploy_nonbootstrap", "postdeploy-nonbootstrap.yml") %>'
+export JOB_POSTDEPLOY_NAME='<%= p("ansible.postdeploy", "postdeploy.yml") %>'
+export JOB_DRAIN_NAME='<%= p("ansible.drain", "drain.yml") %>'
+
+export JOB_BASE_DIR="/var/vcap/jobs"
+

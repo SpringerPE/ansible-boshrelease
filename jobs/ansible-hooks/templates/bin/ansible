@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# The purpose of this script is initialize the ansible enviroment to be able
+# to call ansible binaries from other jobs, for example to include in
+# pre/post start/deploy scripts.
+#
+# Example call from a post-start script:
+#
+# /var/vcap/jobs/ansible/run -i my-inventory my-playbook.yml
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the ctl script
+source /var/vcap/jobs/ansible-hooks/packages/ansible/_helpers/setup.sh "ansible-hooks"
+
+# Load ansible environment variables. You can predefine the
+# ANSIBLE_CONFIG variable to point to your own custom configuration
+source /var/vcap/jobs/ansible-hooks/data/env.sh
+
+# Load function lib
+source /var/vcap/jobs/ansible-hooks/packages/ansible/_helpers/lib.sh
+
+# Load python library path for dynamic libs
+ldconf "$LD_LIBRARY_PATH"
+
+# Run it. By defining the environment variable RUN you can choose
+# which ansible binary you want to run. It defaults to "ansible-playbook"
+RUN="${RUN:-ansible-playbook}"
+exec /var/vcap/jobs/ansible-hooks/packages/ansible/bin/${RUN} "$@"

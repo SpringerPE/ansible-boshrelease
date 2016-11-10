@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
+set -e -x
+
+echo "Extracting zlib ... "
+tar xzvf zlib/zlib-1.2.8.tar.gz
+
+echo "Building zlib ... "
+pushd zlib-1.2.8
+  ./configure --prefix=${BOSH_INSTALL_TARGET}
+  make
+  make install
+popd
+

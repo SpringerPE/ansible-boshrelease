@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
+set -e -x
+
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
+
+echo "Extracting pip..."
+tar xvf pip/pip-9.0.1.tar.gz
+
+echo "Creating the site packages ... "
+mkdir -p ${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages
+
+echo "Setting the PYTHONPATH with setuptools site packages..."
+PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
+PYTHONPATH="/var/vcap/packages/setuptools/lib/python2.7/site-packages:${PYTHONPATH}"
+export PYTHONPATH
+
+echo "Installing setuptools ..."
+LIBRARY_PATH="/var/vcap/packages/bzip2/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="/var/vcap/packages/zlib/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="/var/vcap/packages/openssl/lib:${LIBRARY_PATH}"
+export LIBRARY_PATH
+export LD_LIBRARY_PATH="${LIBRARY_PATH}"
+
+pushd pip-9.0.1
+  /var/vcap/packages/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+popd

@@ -1,0 +1,11 @@
+set -e -x
+
+echo "Extracting libffi ... "
+tar xzvf libffi/libffi-3.2.1.tar.gz
+
+echo "Building libffi ... "
+pushd libffi-3.2.1
+  ./configure --prefix=${BOSH_INSTALL_TARGET}
+  make
+  make install
+popd

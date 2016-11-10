@@ -1,0 +1,7 @@
+---
+name: libffi
+
+dependencies: []
+
+files:
+- libffi/libffi-3.2.1.tar.gz	# ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz

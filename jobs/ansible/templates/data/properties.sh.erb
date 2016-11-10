@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# job template binding variables
+<% if_p("ansible.env") do |environment| %>
+<% environment.each do |key, value| %>
+export <%= key %>="<%= value %>"
+<% end %>
+<% end %>
+
+# job name & index of this VM within cluster
+export DEPLOYMENT_NAME="<%= spec.deployment %>"
+
+# e.g. JOB_NAME=redis, JOB_INDEX=0
+export JOB_NAME='<%= name %>'
+export JOB_INDEX="<%= spec.index %>"
+# full job name, like redis/0 or webapp/3
+export JOB_FULL="$JOB_NAME/$JOB_INDEX"
+export JOB_AZ="<%= spec.az %>"
+export JOB_DNS_DOMAIN="<%= spec.dns_domain_name %>"
+
+export INSTANCE_BOOTSTRAP=<% if spec.bootstrap == true || spec.bootstrap =~ (/(true|t|yes|y|1)$/i) %>1<% else %>0<% end %>
+export INSTANCE_NAME="<%= spec.name %>"
+# spec.networks.send(spec.networks.methods(false).first).ip
+# spec.networks.to_h.values.first.ip
+export INSTANCE_ID="<%= spec.id %>"
+export INSTANCE_ADDRESS="<%= spec.address %>"
+export INSTANCE_IP="<%= spec.ip %>"
+export INSTANCE_NETWORKS="<%= spec.networks %>"
+
+export BINARY='<%= p("ansible.binary", "ansible-playbook") %>'
+<% if_p("ansible.args") do |args| %>
+export ARGS='<%= args %>'
+<% end %>

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
+set -e -x
+
+echo "Extracting python ... "
+tar xvf python/Python-2.7.12.tar.xz
+
+echo "Defining libraries path ..."
+CPPFLAGS="-I/var/vcap/packages/bzip2/include ${CPPFLAGS}"
+CPPFLAGS="-I/var/vcap/packages/zlib/include ${CPPFLAGS}"
+CPPFLAGS="-I/var/vcap/packages/openssl/include ${CPPFLAGS}"
+export CPPFLAGS
+LDFLAGS="-L/var/vcap/packages/bzip2/lib ${LDFLAGS}"
+LDFLAGS="-L/var/vcap/packages/zlib/lib ${LDFLAGS}"
+LDFLAGS="-L/var/vcap/packages/openssl/lib ${LDFLAGS}"
+export LDFLAGS
+LIBRARY_PATH="/var/vcap/packages/bzip2/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="/var/vcap/packages/zlib/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="/var/vcap/packages/openssl/lib:${LIBRARY_PATH}"
+export LIBRARY_PATH
+export LD_LIBRARY_PATH="${LIBRARY_PATH}"
+export CFLAGS="-fPIC ${CFLAGS}"
+
+echo "Building python ... "
+pushd Python-2.7.12
+  ./configure --prefix=${BOSH_INSTALL_TARGET}
+  make
+  make install
+popd

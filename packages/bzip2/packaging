@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
+set -e -x
+
+echo "Extracting bzip2 ... "
+tar xzvf bzip2/bzip2-1.0.6.tar.gz
+
+echo "Building bzip2 ... "
+pushd bzip2-1.0.6
+  export CFLAGS="$CFLAGS -fPIC"
+  make -f Makefile-libbz2_so
+  make
+  make install PREFIX=${BOSH_INSTALL_TARGET}
+  cp -a *.so* ${BOSH_INSTALL_TARGET}/lib
+popd
