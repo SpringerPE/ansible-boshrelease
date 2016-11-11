@@ -1,0 +1,93 @@
+---
+packages:
+- name: zlib
+  version: 5a0d9aa8f1fd5f03b6409497bc237609662d516c
+  fingerprint: 5a0d9aa8f1fd5f03b6409497bc237609662d516c
+  sha1: 95f0b3504fdeb8e828008cca0acbe5bc4aafdfe5
+  dependencies: []
+- name: libffi
+  version: 38b222c4f37af7b88fc326008912318e4cf15dc5
+  fingerprint: 38b222c4f37af7b88fc326008912318e4cf15dc5
+  sha1: 96f649c9dae57f4f3c4df7f1d74efd60210175a1
+  dependencies: []
+- name: ansible
+  version: eb0b6cf4fd4cab5a0be13d2c2bae00679ecca3cc
+  fingerprint: eb0b6cf4fd4cab5a0be13d2c2bae00679ecca3cc
+  sha1: 8b039c782b4563dcda319b587c05b1c68972e0db
+  dependencies:
+  - bzip2
+  - libffi
+  - libyaml
+  - openssl
+  - pip
+  - python27
+  - setuptools
+  - zlib
+- name: pip
+  version: 0d5dee7fd9a141f233b1f0a3be400602e87b4ff1
+  fingerprint: 0d5dee7fd9a141f233b1f0a3be400602e87b4ff1
+  sha1: 0ffc879d2fb9b4b6e3eac6d70e1b42a6f1b73f40
+  dependencies:
+  - bzip2
+  - libyaml
+  - openssl
+  - python27
+  - setuptools
+  - zlib
+- name: python27
+  version: b5236de83511cb23cb0140fb5d251ee8781547a5
+  fingerprint: b5236de83511cb23cb0140fb5d251ee8781547a5
+  sha1: e1c7e0502f495469cabc2eae71e23d3fc2c60f49
+  dependencies:
+  - bzip2
+  - openssl
+  - zlib
+- name: setuptools
+  version: 91fc39cd9b62e56aa27e0237bc89cc1e2a5de2a3
+  fingerprint: 91fc39cd9b62e56aa27e0237bc89cc1e2a5de2a3
+  sha1: 9299177a0aeddfadd75de690fcd71e604538cc5a
+  dependencies:
+  - openssl
+  - python27
+  - zlib
+- name: openssl
+  version: 844c8360288e6277930553a8221c9053cded0367
+  fingerprint: 844c8360288e6277930553a8221c9053cded0367
+  sha1: 7c683a7772bdd3dcd4b4a9d4ee089c0bd67ec986
+  dependencies:
+  - zlib
+- name: bzip2
+  version: 345a2f7fff524f109c50a3ad78fc95a824a7f903
+  fingerprint: 345a2f7fff524f109c50a3ad78fc95a824a7f903
+  sha1: 8829c9fbdefb6422cc5799f58328dd6c055caa0a
+  dependencies: []
+- name: libyaml
+  version: 7273d34e106bb7eb6c16e3b943af56109d18c663
+  fingerprint: 7273d34e106bb7eb6c16e3b943af56109d18c663
+  sha1: 0379fd7fde37b75373b3a1771d14bb13ad8b6f87
+  dependencies: []
+jobs:
+- name: ansible
+  version: 5edf929e5a867135b7c825e8858cbd49499ad931
+  fingerprint: 5edf929e5a867135b7c825e8858cbd49499ad931
+  sha1: 72bba32eac784f7439d108f8e8591f277b56b18e
+- name: ansible-deploy
+  version: b12fcfc903cc2aea0fe80dcb450a75df263ecd17
+  fingerprint: b12fcfc903cc2aea0fe80dcb450a75df263ecd17
+  sha1: 7ced502392f79cb99d463480485becbb771b377a
+- name: ansible-hooks
+  version: df65a9100f10d0bdfb5c64521761a7d95514d9cc
+  fingerprint: df65a9100f10d0bdfb5c64521761a7d95514d9cc
+  sha1: 54500b4f6bb1eb4f71068c1c5b2100299bf7ce89
+- name: ansible-distclean
+  version: 471c10a5af9306785f38eb7c7dd5692b756c8de9
+  fingerprint: 471c10a5af9306785f38eb7c7dd5692b756c8de9
+  sha1: d507cabe18867539f0be6cf1add717aeb6681dc6
+license:
+  version: 068d7540e98ec3bc8a1b437765c2eb9cbdfb2442
+  fingerprint: 068d7540e98ec3bc8a1b437765c2eb9cbdfb2442
+  sha1: 095aa987069b50fe7ce7cb0d4c2868b66a10ea37
+commit_hash: e07754a2
+uncommitted_changes: true
+name: ansible-boshrelease
+version: '1'
