@@ -1,1 +1,49 @@
---- {}
+---
+zlib/zlib-1.2.8.tar.gz:
+  object_id: 17585956-6263-4287-be73-3f408143acd6
+  sha: a4d316c404ff54ca545ea71a27af7dbc29817088
+  size: 571091
+libffi/libffi-3.2.1.tar.gz:
+  object_id: 980d7fd8-7957-4097-9aa8-945815233d1f
+  sha: 280c265b789e041c02e5c97815793dfc283fb1e6
+  size: 940837
+ansible/ansible-2.2.0.0.tar.gz:
+  object_id: 146d8ad2-98a4-4031-8db0-725af7635c5a
+  sha: dd150530be9f75f7b9f716b2044b438494c6605a
+  size: 2441851
+ansible/paramiko-2.0.2.tar.gz:
+  object_id: 5050b48d-77bc-4b46-8241-9935bf27b0d0
+  sha: 2359f96dc3f6472c8e98b52dd99b7e867b18a79b
+  size: 275401
+ansible/jinja-2.8.tar.gz:
+  object_id: df2cf0a3-2915-46ae-a20d-1b1360f1bdca
+  sha: 0736002664e720d183806d09e2b50bdcce045fa2
+  size: 395838
+ansible/pycrypto-2.6.1.tar.gz:
+  object_id: f78f3e11-55ea-4f3e-b462-9e9988fb6c19
+  sha: aeda3ed41caf1766409d4efc689b9ca30ad6aeb2
+  size: 446240
+pip/pip-9.0.1.tar.gz:
+  object_id: 74d8a626-6b16-436a-9537-f383c406aa63
+  sha: 57ff41e99cb01b6a1c2b0999161589b726f0ec8b
+  size: 1197370
+setuptools/setuptools-25.0.0.tar.gz:
+  object_id: d3ea7bd9-43bd-425f-a3bf-a7e56feb79d1
+  sha: d553bbc5b28800d602a81abc95a8318762cec261
+  size: 610873
+openssl/openssl-1.0.2h.tar.gz:
+  object_id: df266374-4f80-41a8-a875-28835f095b96
+  sha: 577585f5f5d299c44dd3c993d3c0ac7a219e4949
+  size: 5274412
+bzip2/bzip2-1.0.6.tar.gz:
+  object_id: 6782f1f3-4628-42e9-826d-b1ce123003f2
+  sha: 3f89f861209ce81a6bab1fd1998c0ef311712002
+  size: 782025
+python/Python-2.7.12.tar.xz:
+  object_id: 9d5e93e8-9ed7-4f5d-a513-110fcf8fdf43
+  sha: 05360b8ade117b35e266b2004a7f1f11250c6dcd
+  size: 12390820
+libyaml/yaml-0.1.6.tar.gz:
+  object_id: 6aa12f78-52ad-4566-831b-bcf84adc1649
+  sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
+  size: 503012
