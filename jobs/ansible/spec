@@ -30,6 +30,8 @@ properties:
   ansible.binary:
     description: Ansible binary to execute.
     default: "ansible-playbook"
+  ansible.inventory:
+    description: Ansible inventory location.
   ansible.args:
     description: Arguments for the ansible binary.
     example: "-i bosh-inventory /var/vcap/jobs/another-job/ansible/playbook.yml"
