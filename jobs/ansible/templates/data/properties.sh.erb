@@ -28,8 +28,8 @@ export INSTANCE_IP="<%= spec.ip %>"
 export INSTANCE_NETWORKS="<%= spec.networks %>"
 
 export BINARY='<%= p("ansible.binary", "ansible-playbook") %>'
-<% if_p("ansible.inventory") do |inv| %>
-export INVENTORY='<%= inv %>'
+<% if_p("ansible.inventory_arg") do |inv| %>
+export INVENTORYARG='<%= inv %>'
 <% end %>
 <% if_p("ansible.args") do |args| %>
 export ARGS='<%= args %>'

@@ -28,6 +28,6 @@ ldconf "$LD_LIBRARY_PATH"
 # which ansible binary you want to run. It defaults to "ansible-playbook"
 BINARY="${BINARY:-ansible-playbook}"
 ARGS="${@:-$ARGS}"
-[ ! -z "$INVENTORY" ] && ARGS="-i ${INVENTORY} ${ARGS}"
+[ ! -z "$INVENTORYARG" ] && ARGS="-i ${INVENTORYARG} ${ARGS}"
 exec /var/vcap/jobs/ansible/packages/ansible/bin/${BINARY} ${ARGS}
 
