@@ -1,0 +1,7 @@
+---
+builds:
+  345a2f7fff524f109c50a3ad78fc95a824a7f903:
+    version: 345a2f7fff524f109c50a3ad78fc95a824a7f903
+    sha1: 8829c9fbdefb6422cc5799f58328dd6c055caa0a
+    blobstore_id: d430bac0-92d6-4968-8083-11c0a71ab6e2
+format-version: '2'
