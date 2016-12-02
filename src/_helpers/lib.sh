@@ -57,12 +57,11 @@ function get_playbooks {
 
 # Exec an ansible from other job ansible folder
 function run_playbook {
-    local kind="${1}"
+    local logfile="${1}"
     local playbook="${2}"
     local params="${@:3}"
 
     local pid
-    local logfile="${LOG_DIR}/${kind}.log"
     local playbook_name="${playbook##*/}"
     local playbook_path="${playbook%/*}"
     (
@@ -75,7 +74,7 @@ function run_playbook {
         {
             echo "* $$: ${proc}"
             exec ${proc} 2>&1;
-        } >> "${logfile}"
+        } | tee "${logfile}"
     ) &
     pid=$!
     wait $pid 2>/dev/null
@@ -92,14 +91,18 @@ function run_all {
     local playbookname="${3}"
     local variables="${@:4}"
 
-    local error=0
     local params
+    local error=0
+    local logfile="${LOG_DIR}/${playbooktype}.log"
     [ -z "$variables" ] && params='' || params="--extra-vars '${variables}'"
     # Search for playbooks
     for playbook in $(get_playbooks "${base_dir}" "${playbookname}"); do
-        run_playbook "${playbooktype}" "${playbook}" ${params}
+        run_playbook "${logfile}" "${playbook}" ${params}
         rvalue=$?
-        [ $rvalue != 0 ] && error=$rvalue
+        if [ $rvalue != 0 ]; then
+            error=$rvalue
+            cat "${logfile}" >&2
+        fi
     done
     # Return error if any of the playbooks failed
     return $error

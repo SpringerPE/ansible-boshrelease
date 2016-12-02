@@ -29,7 +29,7 @@ ldconf "$LD_LIBRARY_PATH"
 
 # Run!
 JOB_TYPE="${0##*/}"
-run_all "$JOB_BASE_DIR" "$JOB_TYPE" "$JOB_DRAIN_NAME"
+run_all "$JOB_BASE_DIR" "$JOB_TYPE" "$JOB_DRAIN_NAME" > /dev/null
 rvalue=$?
 [ $rvalue == 0 ] && echo "0"
 exit $rvalue
