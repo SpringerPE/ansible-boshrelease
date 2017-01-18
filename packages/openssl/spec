@@ -5,4 +5,4 @@ dependencies:
 - zlib
 
 files:
-- openssl/openssl-1.0.2h.tar.gz     # http://openssl.org/source/openssl-1.0.2h.tar.gz
+- openssl/openssl-1.0.2j.tar.gz     # http://openssl.org/source/openssl-1.0.2j.tar.gz

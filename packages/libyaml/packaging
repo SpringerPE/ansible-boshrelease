@@ -3,12 +3,16 @@
 # abort script on any command that exits with a non zero value
 set -e -x
 
-echo "Extracting libyaml ... "
-tar xzvf libyaml/yaml-0.1.6.tar.gz
+# Grab the latest versions that are in the directory
+LIBYAML_VERSION=$(ls -r libyaml/yaml-*.tar.gz | sed 's/.*\/yaml-\(.*\)\.tar\.gz$/\1/' | head -1)
+
+echo "Extracting libyaml ${LIBYAML_VERSION} ... "
+tar xzvf "libyaml/yaml-${LIBYAML_VERSION}.tar.gz"
 
 echo "Building libyaml ... "
-pushd yaml-0.1.6
+pushd "yaml-${LIBYAML_VERSION}"
   ./configure --prefix=${BOSH_INSTALL_TARGET}
   make
   make install
 popd
+

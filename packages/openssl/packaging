@@ -3,17 +3,22 @@
 # abort script on any command that exits with a non zero value
 set -e -x
 
-echo "Extracting openssl ... "
-tar xvf openssl/openssl-1.0.2h.tar.gz
+# Grab the latest versions that are in the directory
+OPENSSL_VERSION=$(ls -r openssl/openssl-*.tar.gz | sed 's/.*\/openssl-\(.*\)\.tar\.gz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
+
+echo "Extracting openssl ${OPENSSL_VERSION} ... "
+tar xvf "openssl/openssl-${OPENSSL_VERSION}.tar.gz"
 
 echo "Building openssl ... "
-export CPPFLAGS="-I/var/vcap/packages/zlib/include ${CPPFLAGS}"
-export LDFLAGS="-L/var/vcap/packages/zlib/lib ${LDFLAGS}"
-export LIBRARY_PATH="/var/vcap/packages/zlib/lib:${LIBRARY_PATH}"
+export CPPFLAGS="-I${BOSH_PACKAGES_DIR}/zlib/include ${CPPFLAGS}"
+export LDFLAGS="-L${BOSH_PACKAGES_DIR}/zlib/lib ${LDFLAGS}"
+export LIBRARY_PATH="${BOSH_PACKAGES_DIR}/zlib/lib:${LIBRARY_PATH}"
 export CFLAGS="-fPIC ${CFLAGS}"
 
-pushd openssl-1.0.2h
+pushd "openssl-${OPENSSL_VERSION}"
   ./config --prefix=${BOSH_INSTALL_TARGET} --openssldir=${BOSH_INSTALL_TARGET}/openssl shared zlib
   make
   make install
 popd
+

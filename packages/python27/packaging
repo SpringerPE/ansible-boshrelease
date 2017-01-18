@@ -3,28 +3,33 @@
 # abort script on any command that exits with a non zero value
 set -e -x
 
-echo "Extracting python ... "
-tar xvf python/Python-2.7.12.tar.xz
+# Grab the latest versions that are in the directory
+PYTHON_VERSION=$(ls -r python/Python-*.tar.xz | sed 's/.*\/Python-\(.*\)\.tar\.xz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
+
+echo "Extracting python ${PYTHON_VERSION} ... "
+tar xvf python/Python-${PYTHON_VERSION}.tar.xz
 
 echo "Defining libraries path ..."
-CPPFLAGS="-I/var/vcap/packages/bzip2/include ${CPPFLAGS}"
-CPPFLAGS="-I/var/vcap/packages/zlib/include ${CPPFLAGS}"
-CPPFLAGS="-I/var/vcap/packages/openssl/include ${CPPFLAGS}"
+CPPFLAGS="-I${BOSH_PACKAGES_DIR}/bzip2/include ${CPPFLAGS}"
+CPPFLAGS="-I${BOSH_PACKAGES_DIR}/zlib/include ${CPPFLAGS}"
+CPPFLAGS="-I${BOSH_PACKAGES_DIR}/openssl/include ${CPPFLAGS}"
 export CPPFLAGS
-LDFLAGS="-L/var/vcap/packages/bzip2/lib ${LDFLAGS}"
-LDFLAGS="-L/var/vcap/packages/zlib/lib ${LDFLAGS}"
-LDFLAGS="-L/var/vcap/packages/openssl/lib ${LDFLAGS}"
+LDFLAGS="-L${BOSH_PACKAGES_DIR}/bzip2/lib ${LDFLAGS}"
+LDFLAGS="-L${BOSH_PACKAGES_DIR}/zlib/lib ${LDFLAGS}"
+LDFLAGS="-L${BOSH_PACKAGES_DIR}/openssl/lib ${LDFLAGS}"
 export LDFLAGS
-LIBRARY_PATH="/var/vcap/packages/bzip2/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="/var/vcap/packages/zlib/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="/var/vcap/packages/openssl/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="${BOSH_PACKAGES_DIR}/bzip2/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="${BOSH_PACKAGES_DIR}/zlib/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="${BOSH_PACKAGES_DIR}/openssl/lib:${LIBRARY_PATH}"
 export LIBRARY_PATH
 export LD_LIBRARY_PATH="${LIBRARY_PATH}"
 export CFLAGS="-fPIC ${CFLAGS}"
 
-echo "Building python ... "
-pushd Python-2.7.12
+echo "Building and installing Python ... "
+pushd Python-${PYTHON_VERSION}
   ./configure --prefix=${BOSH_INSTALL_TARGET}
   make
   make install
 popd
+

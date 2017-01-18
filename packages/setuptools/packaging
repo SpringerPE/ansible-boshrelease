@@ -3,8 +3,12 @@
 # abort script on any command that exits with a non zero value
 set -e -x
 
-echo "Extracting setuptools ... "
-tar xvf setuptools/setuptools-25.0.0.tar.gz
+# Grab the latest versions that are in the directory
+SETUPTOOLS_VERSION=$(ls -r setuptools/setuptools-*.tar.gz | sed 's/.*\/setuptools-\(.*\)\.tar\.gz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
+
+echo "Extracting setuptools ${SETUPTOOLS_VERSION} ... "
+tar xvf "setuptools/setuptools-${SETUPTOOLS_VERSION}.tar.gz"
 
 echo "Creating the setuptools site packages ... "
 mkdir -p ${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages
@@ -13,11 +17,14 @@ echo "Setting the PYTHONPATH with setuptools site packages..."
 export PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
 
 echo "Installing setuptools ..."
-LIBRARY_PATH="/var/vcap/packages/bzip2/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="/var/vcap/packages/zlib/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="/var/vcap/packages/openssl/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="${BOSH_PACKAGES_DIR}/bzip2/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="${BOSH_PACKAGES_DIR}/zlib/lib:${LIBRARY_PATH}"
+LIBRARY_PATH="${BOSH_PACKAGES_DIR}/openssl/lib:${LIBRARY_PATH}"
 export LIBRARY_PATH
 export LD_LIBRARY_PATH="${LIBRARY_PATH}"
-pushd setuptools-25.0.0
-  /var/vcap/packages/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+
+pushd "setuptools-${SETUPTOOLS_VERSION}"
+  ${BOSH_PACKAGES_DIR}/python27/bin/python bootstrap.py
+  ${BOSH_PACKAGES_DIR}/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
+

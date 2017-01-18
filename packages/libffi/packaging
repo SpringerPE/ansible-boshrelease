@@ -1,11 +1,18 @@
+#!/usr/bin/env bash
+
+# abort script on any command that exits with a non zero value
 set -e -x
 
-echo "Extracting libffi ... "
-tar xzvf libffi/libffi-3.2.1.tar.gz
+# Grab the latest versions that are in the directory
+LIBFFI_VERSION=$(ls -r libffi/libffi-*.tar.gz | sed 's/.*\/libffi-\(.*\)\.tar\.gz$/\1/' | head -1)
+
+echo "Extracting libffi ${LIBFFI_VERSION} ... "
+tar xzvf "libffi/libffi-${LIBFFI_VERSION}.tar.gz"
 
 echo "Building libffi ... "
-pushd libffi-3.2.1
+pushd "libffi-${LIBFFI_VERSION}"
   ./configure --prefix=${BOSH_INSTALL_TARGET}
   make
   make install
 popd
+

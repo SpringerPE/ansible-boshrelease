@@ -4,4 +4,4 @@ name: libyaml
 dependencies: []
 
 files:
-- libyaml/yaml-0.1.6.tar.gz	# http://pyyaml.org/download/libyaml/yaml-0.1.6.tar.gz
+- libyaml/yaml-0.1.7.tar.gz     # http://pyyaml.org/download/libyaml/yaml-0.1.7.tar.gz

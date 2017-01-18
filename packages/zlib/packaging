@@ -3,11 +3,14 @@
 # abort script on any command that exits with a non zero value
 set -e -x
 
-echo "Extracting zlib ... "
-tar xzvf zlib/zlib-1.2.8.tar.gz
+# Grab the latest versions that are in the directory
+ZLIB_VERSION=$(ls -r zlib/zlib-*.tar.gz | sed 's/.*\/zlib-\(.*\)\.tar\.gz$/\1/' | head -1)
+
+echo "Extracting zlib ${ZLIB_VERSION} ... "
+tar xzvf "zlib/zlib-${ZLIB_VERSION}.tar.gz"
 
 echo "Building zlib ... "
-pushd zlib-1.2.8
+pushd "zlib-${ZLIB_VERSION}"
   ./configure --prefix=${BOSH_INSTALL_TARGET}
   make
   make install
