@@ -7,11 +7,32 @@ export HOME=${HOME:-/home/vcap}
 export BASE_DIR="/var/vcap/jobs/$NAME"
 export PACKAGES="$BASE_DIR/packages"
 
-# Add all packages' /bin & /sbin into $PATH
-for package_bin_dir in $(ls -d $PACKAGES/*/*bin 2>/dev/null); do
-    PATH="${package_bin_dir}:${PATH}"
+# Setup the PATH and LD_LIBRARY_PATH
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-''}
+for package_dir in $(ls -d $PACKAGES/*); do
+  has_busybox=0
+  # Add all packages' /bin & /sbin into $PATH
+  for package_bin_dir in $(ls -d ${package_dir}/*bin 2>/dev/null); do
+    # Do not add any packages that use busybox, as impacts builtin commands and
+    # is often used for different architecture (via containers)
+    if [ -f ${package_bin_dir}/busybox ]; then
+      has_busybox=1
+    else
+      PATH=${package_bin_dir}:$PATH
+    fi
+  done
+  if [ "$has_busybox" == "0" ]; then
+    if [ -d ${package_dir}/lib ]; then
+      LD_LIBRARY_PATH="${package_dir}/lib:$LD_LIBRARY_PATH"
+    fi
+    # Python libs
+    for package_lib_dir in $(ls -d ${package_dir}/lib/python*/lib-dynload 2>/dev/null); do
+      LD_LIBRARY_PATH="${package_lib_dir}:${LD_LIBRARY_PATH}"
+    done
+  fi
 done
 export PATH
+export LD_LIBRARY_PATH
 
 # Python modules
 PYTHONPATH=${PYTHONPATH:-''}
@@ -19,16 +40,6 @@ for python_mod_dir in $(ls -d $PACKAGES/*/lib/python*/site-packages 2>/dev/null)
     PYTHONPATH="${python_mod_dir}:${PYTHONPATH}"
 done
 export PYTHONPATH
-
-# Libraries
-LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-''}
-for package_bin_dir in $(ls -d $PACKAGES/*/lib 2>/dev/null); do
-    LD_LIBRARY_PATH="${package_bin_dir}:${LD_LIBRARY_PATH}"
-done
-for package_bin_dir in $(ls -d $PACKAGES/*/lib/python*/lib-dynload 2>/dev/null); do
-    LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${package_bin_dir}"
-done
-export LD_LIBRARY_PATH
 
 # Setup log and tmp folders
 export LOG_DIR="/var/vcap/sys/log/$NAME"
