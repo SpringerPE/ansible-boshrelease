@@ -5,6 +5,7 @@ set -e -x
 
 # Grab the latest versions that are in the directory
 LIBYAML_VERSION=$(ls -r libyaml/yaml-*.tar.gz | sed 's/.*\/yaml-\(.*\)\.tar\.gz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
 
 echo "Extracting libyaml ${LIBYAML_VERSION} ... "
 tar xzvf "libyaml/yaml-${LIBYAML_VERSION}.tar.gz"
@@ -15,4 +16,3 @@ pushd "yaml-${LIBYAML_VERSION}"
   make
   make install
 popd
-

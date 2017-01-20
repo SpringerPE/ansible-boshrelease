@@ -17,14 +17,18 @@ echo "Setting the PYTHONPATH with setuptools site packages..."
 export PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
 
 echo "Installing setuptools ..."
-LIBRARY_PATH="${BOSH_PACKAGES_DIR}/bzip2/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="${BOSH_PACKAGES_DIR}/zlib/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="${BOSH_PACKAGES_DIR}/openssl/lib:${LIBRARY_PATH}"
+for package_lib_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib 2>/dev/null); do
+    LIBRARY_PATH="${package_lib_dir}:${LIBRARY_PATH}"
+done
 export LIBRARY_PATH
 export LD_LIBRARY_PATH="${LIBRARY_PATH}"
 
-pushd "setuptools-${SETUPTOOLS_VERSION}"
-  ${BOSH_PACKAGES_DIR}/python27/bin/python bootstrap.py
-  ${BOSH_PACKAGES_DIR}/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
-popd
+for package_bin_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/bin 2>/dev/null); do
+    PATH="${package_bin_dir}:${PATH}"
+done
+export PATH
 
+pushd "setuptools-${SETUPTOOLS_VERSION}"
+  python bootstrap.py
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+popd

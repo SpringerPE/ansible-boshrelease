@@ -5,6 +5,7 @@ set -e -x
 
 # Grab the latest versions that are in the directory
 BZIP2_VERSION=$(ls -r bzip2/bzip2-*.tar.gz | sed 's/.*\/bzip2-\(.*\)\.tar\.gz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
 
 echo "Extracting bzip2 ${BZIP2_VERSION} ... "
 tar xzvf "bzip2/bzip2-${BZIP2_VERSION}.tar.gz"
@@ -17,4 +18,3 @@ pushd "bzip2-${BZIP2_VERSION}"
   make install PREFIX=${BOSH_INSTALL_TARGET}
   cp -a *.so* ${BOSH_INSTALL_TARGET}/lib
 popd
-

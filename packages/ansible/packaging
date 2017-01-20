@@ -10,6 +10,15 @@ JINJA_VERSION=$(ls -r ansible/jinja-*.tar.gz | sed 's/.*\/jinja-\(.*\)\.tar\.gz$
 PARAMIKO_VERSION=$(ls -r ansible/paramiko-*.tar.gz | sed 's/.*\/paramiko-\(.*\)\.tar\.gz$/\1/' | head -1)
 LIBFFI_VERSION="3.2.1"
 BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
+JOB_NAME="ansible"
+
+# Integrate contents of all packages to this folder, so only this package needs
+# to be included in the job
+for pkg in $(ls --ignore=ansible ${BOSH_PACKAGES_DIR}); do
+    echo "Integrating ${BOSH_PACKAGES_DIR}/${pkg}/* in ${BOSH_INSTALL_TARGET}"
+    cp -av ${BOSH_PACKAGES_DIR}/${pkg}/* ${BOSH_INSTALL_TARGET}
+done
+
 
 echo "Extracting pycrypto ${PYCRYPTO_VERSION} ..."
 tar xvf "ansible/pycrypto-${PYCRYPTO_VERSION}.tar.gz"
@@ -28,39 +37,49 @@ mkdir -p ${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages
 
 echo "Setting the PYTHONPATH with setuptools and ansible site packages ..."
 PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
-PYTHONPATH="${BOSH_PACKAGES_DIR}/setuptools/lib/python2.7/site-packages:${PYTHONPATH}"
-PYTHONPATH="${BOSH_PACKAGES_DIR}/pip/lib/python2.7/site-packages:${PYTHONPATH}"
+for package_python_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib/python*/site-packages 2>/dev/null); do
+    PYTHONPATH="${package_python_dir}:${PYTHONPATH}"
+done
 export PYTHONPATH
 
-echo "Setting setuptools build sources ..."
-CPATH="${BOSH_PACKAGES_DIR}/libffi/lib/libffi-${LIBFFI_VERSION}/include"
-CPATH="${BOSH_PACKAGES_DIR}/libyaml/include:${CPATH}"
-export CPATH
-LIBRARY_PATH="${BOSH_PACKAGES_DIR}/libffi/lib"
-LIBRARY_PATH="${BOSH_PACKAGES_DIR}/libyaml/lib:${LIBRARY_PATH}"
-LIBRARY_PATH="${BOSH_PACKAGES_DIR}/openssl/lib:${LIBRARY_PATH}"
+echo "Setting libs path ..."
+for package_lib_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib 2>/dev/null); do
+    LIBRARY_PATH="${package_lib_dir}:${LIBRARY_PATH}"
+done
 export LIBRARY_PATH
 export LD_LIBRARY_PATH="${LIBRARY_PATH}"
 
+echo "Setting path ..."
+for package_bin_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/bin 2>/dev/null); do
+    PATH="${package_bin_dir}:${PATH}"
+done
+export PATH
+
+echo "Setting setuptools build sources ..."
+CPATH="${BOSH_PACKAGES_DIR}/libffi/lib/libffi-${LIBFFI_VERSION}/include"
+for package_cpath_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/include 2>/dev/null); do
+    CPATH="${package_cpath_dir}:${CPATH}"
+done
+export CPATH
 
 echo "Installing pycrypto ..."
 pushd "pycrypto-${PYCRYPTO_VERSION}"
-  ${BOSH_PACKAGES_DIR}/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing jinja ..."
 pushd "jinja-${JINJA_VERSION}"
-  ${BOSH_PACKAGES_DIR}/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing paramiko ..."
 pushd "paramiko-${PARAMIKO_VERSION}"
-  ${BOSH_PACKAGES_DIR}/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing ansible ..."
 pushd "ansible-${ANSIBLE_VERSION}"
-  ${BOSH_PACKAGES_DIR}/python27/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 # Install aditional plugins
@@ -79,7 +98,7 @@ libs=$(find library -maxdepth 1 -type d  ! -path library)
 if [ "${libs}" ]; then
   echo "Adding libraries ..."
   for lib in ${libs}; do
-      cp -av ${lib}/* ${BOSH_INSTALL_TARGET}/library/
+    cp -av ${lib}/* ${BOSH_INSTALL_TARGET}/library/
   done
 fi
 
@@ -89,15 +108,15 @@ roles=$(find roles -maxdepth 1 -type d  ! -path roles)
 if [ "${roles}" ]; then
   echo "Adding roles ..."
   for role in ${roles}; do
-      cp -av ${role}/* ${BOSH_INSTALL_TARGET}/roles/
+    cp -av ${role}/* ${BOSH_INSTALL_TARGET}/roles/
   done
 fi
 
 # Install additional dependencies
 echo "Installing additional requirements.txt ..."
 if [ -e "requirements.txt" ]; then
-    cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
-    ${BOSH_PACKAGES_DIR}/pip/bin/pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+  cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
+  pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
 fi
 
 # Install shell helpers

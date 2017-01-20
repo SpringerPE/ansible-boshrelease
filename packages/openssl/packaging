@@ -11,14 +11,21 @@ echo "Extracting openssl ${OPENSSL_VERSION} ... "
 tar xvf "openssl/openssl-${OPENSSL_VERSION}.tar.gz"
 
 echo "Building openssl ... "
-export CPPFLAGS="-I${BOSH_PACKAGES_DIR}/zlib/include ${CPPFLAGS}"
-export LDFLAGS="-L${BOSH_PACKAGES_DIR}/zlib/lib ${LDFLAGS}"
-export LIBRARY_PATH="${BOSH_PACKAGES_DIR}/zlib/lib:${LIBRARY_PATH}"
 export CFLAGS="-fPIC ${CFLAGS}"
+for package_include_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/include 2>/dev/null); do
+    CPPFLAGS="-I${package_include_dir} ${CPPFLAGS}"
+done
+for package_lib_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib 2>/dev/null); do
+    LDFLAGS="-L${package_lib_dir} ${LDFLAGS}"
+    LIBRARY_PATH="${package_lib_dir}:${LIBRARY_PATH}"
+done
+export CPPFLAGS
+export LDFLAGS
+export LIBRARY_PATH
 
+echo "Building and installing openssl ... "
 pushd "openssl-${OPENSSL_VERSION}"
   ./config --prefix=${BOSH_INSTALL_TARGET} --openssldir=${BOSH_INSTALL_TARGET}/openssl shared zlib
   make
   make install
 popd
-

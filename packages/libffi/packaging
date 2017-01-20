@@ -5,6 +5,7 @@ set -e -x
 
 # Grab the latest versions that are in the directory
 LIBFFI_VERSION=$(ls -r libffi/libffi-*.tar.gz | sed 's/.*\/libffi-\(.*\)\.tar\.gz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
 
 echo "Extracting libffi ${LIBFFI_VERSION} ... "
 tar xzvf "libffi/libffi-${LIBFFI_VERSION}.tar.gz"
@@ -15,4 +16,3 @@ pushd "libffi-${LIBFFI_VERSION}"
   make
   make install
 popd
-

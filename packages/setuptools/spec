@@ -3,6 +3,7 @@ name: setuptools
 
 dependencies:
 - zlib
+- bzip2
 - openssl
 - python27
 

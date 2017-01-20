@@ -5,6 +5,7 @@ set -e -x
 
 # Grab the latest versions that are in the directory
 ZLIB_VERSION=$(ls -r zlib/zlib-*.tar.gz | sed 's/.*\/zlib-\(.*\)\.tar\.gz$/\1/' | head -1)
+BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
 
 echo "Extracting zlib ${ZLIB_VERSION} ... "
 tar xzvf "zlib/zlib-${ZLIB_VERSION}.tar.gz"
@@ -15,4 +16,3 @@ pushd "zlib-${ZLIB_VERSION}"
   make
   make install
 popd
-
