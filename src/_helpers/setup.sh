@@ -29,6 +29,9 @@ for package_dir in $(ls -d $PACKAGES/*); do
     for package_lib_dir in $(ls -d ${package_dir}/lib/python*/lib-dynload 2>/dev/null); do
       LD_LIBRARY_PATH="${package_lib_dir}:${LD_LIBRARY_PATH}"
     done
+    for package_lib_dir in $(ls -d ${package_dir}/lib/python*/site-packages 2>/dev/null); do
+      LD_LIBRARY_PATH="${package_lib_dir}:${LD_LIBRARY_PATH}"
+    done
   fi
 done
 export PATH
