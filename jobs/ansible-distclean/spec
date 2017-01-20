@@ -4,14 +4,6 @@ name: ansible-distclean
 description: Ansible errand to dist-clean resources (usually external) of a deployment. In order to make use of this feature, ansible releases have to provide a job with ansible/*distclean.yml playbook which will run as an errand.
 
 packages:
-- bzip2
-- zlib
-- libyaml
-- libffi
-- openssl
-- python27
-- setuptools
-- pip
 - ansible
 
 templates:

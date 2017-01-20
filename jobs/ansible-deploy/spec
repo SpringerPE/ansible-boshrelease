@@ -4,14 +4,6 @@ name: ansible-deploy
 description: Ansible errand to deploy resources (usually external) of a deployment. In order to make use of this feature, ansible releases have to provide a job with ansible/*deploy.yml playbook which will run as an errand.
 
 packages:
-- bzip2
-- zlib
-- libyaml
-- libffi
-- openssl
-- python27
-- setuptools
-- pip
 - ansible
 
 templates:

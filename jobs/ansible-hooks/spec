@@ -4,14 +4,6 @@ name: ansible-hooks
 description: Ansible hooks launcher (pre/post start/deploy) for playbooks from other ansible-releases
 
 packages:
-- bzip2
-- zlib
-- libyaml
-- libffi
-- openssl
-- python27
-- setuptools
-- pip
 - ansible
 
 templates:

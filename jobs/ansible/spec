@@ -4,14 +4,6 @@ name: ansible
 description: Wrapper scripts to run ansible binary programs on a VM
 
 packages:
-- bzip2
-- zlib
-- libyaml
-- libffi
-- openssl
-- python27
-- setuptools
-- pip
 - ansible
 
 templates:
