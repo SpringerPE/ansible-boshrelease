@@ -35,6 +35,16 @@ tar xvf "ansible/ansible-${ANSIBLE_VERSION}.tar.gz"
 echo "Creating python site packages folder ..."
 mkdir -p ${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages
 
+
+# In all these paths the priority is set to the current folder, why?
+# * to make it usable when contents from other packages are copied (integrated) on this package
+# * to reuse this package in other releases (as standalone package)
+# Python setuptools/pip install the contents and create the shebang based
+# on the python binary location, so sometimes the shebang does not point
+# a proper path in case the contents were copied from other package.
+# The option in setup.py "build --executable='python'" defines the shebang,
+# but depending on the setuptools, is not always working.
+
 echo "Setting the PYTHONPATH with setuptools and ansible site packages ..."
 PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
 for package_python_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib/python*/site-packages 2>/dev/null); do
