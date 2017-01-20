@@ -6,7 +6,7 @@ set -u # report the usage of uninitialized variables
 export JOB_ANSIBLE_DIR="ansible"
 export JOB_ANSIBLE_INVENTORY="inventory"
 export JOB_ANSIBLE_ENV="env.sh"
-export JOB_ANSIBLE_EXEC="/var/vcap/packages/ansible/bin/ansible-playbook"
+export JOB_ANSIBLE_EXEC="ansible-playbook"
 
 # Python dlopen does not pay attention to LD_LIBRARY_PATH, so
 # ctypes.util.find_library is not able to find dyn libs, the only
