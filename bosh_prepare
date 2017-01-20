@@ -29,7 +29,7 @@ exec_download() {
     (
         cd ${SRC}
         if [ ! -s "${output}" ]; then
-            echo "* Downloading ${url} ..."
+            echo "  Downloading ${url} ..."
             mkdir -p "${package}"
             curl -L -s "${url}" -o "${output}"
         fi
