@@ -30,7 +30,7 @@ properties:
     description: Default inventory for ansible playbooks.
     default: |+
       [localhost]
-      localhost ansible_python_interpreter=/var/vcap/packages/python27/bin/python ansible_connection=local ansible_become=false
+      localhost ansible_python_interpreter=/var/vcap/jobs/ansible-distclean/packages/ansible/bin/python ansible_connection=local ansible_become=false
   ansible.private_key:
     description: Use this private key file for ssh authentication in remote hosts.
   ansible.vault_password:
