@@ -30,5 +30,5 @@ export PATH
 
 pushd "setuptools-${SETUPTOOLS_VERSION}"
   python bootstrap.py
-  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
 popd

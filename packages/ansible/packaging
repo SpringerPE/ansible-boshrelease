@@ -40,46 +40,49 @@ PYTHONPATH="${BOSH_INSTALL_TARGET}/lib/python2.7/site-packages:${PYTHONPATH}"
 for package_python_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib/python*/site-packages 2>/dev/null); do
     PYTHONPATH="${package_python_dir}:${PYTHONPATH}"
 done
+for package_python_dir in $(ls -d ${BOSH_INSTALL_TARGET}/lib/python*/site-packages 2>/dev/null); do
+    PYTHONPATH="${package_python_dir}:${PYTHONPATH}"
+done
 export PYTHONPATH
 
 echo "Setting libs path ..."
 for package_lib_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/lib 2>/dev/null); do
     LIBRARY_PATH="${package_lib_dir}:${LIBRARY_PATH}"
 done
-export LIBRARY_PATH
+export LIBRARY_PATH="${BOSH_INSTALL_TARGET}/lib:${LIBRARY_PATH}"
 export LD_LIBRARY_PATH="${LIBRARY_PATH}"
 
 echo "Setting path ..."
 for package_bin_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/bin 2>/dev/null); do
     PATH="${package_bin_dir}:${PATH}"
 done
-export PATH
+export PATH="${BOSH_INSTALL_TARGET}/bin:${PATH}"
 
 echo "Setting setuptools build sources ..."
 CPATH="${BOSH_PACKAGES_DIR}/libffi/lib/libffi-${LIBFFI_VERSION}/include"
 for package_cpath_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/include 2>/dev/null); do
     CPATH="${package_cpath_dir}:${CPATH}"
 done
-export CPATH
+export CPATH="${BOSH_INSTALL_TARGET}/include:${CPATH}"
 
 echo "Installing pycrypto ..."
 pushd "pycrypto-${PYCRYPTO_VERSION}"
-  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing jinja ..."
 pushd "jinja-${JINJA_VERSION}"
-  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing paramiko ..."
 pushd "paramiko-${PARAMIKO_VERSION}"
-  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing ansible ..."
 pushd "ansible-${ANSIBLE_VERSION}"
-  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 # Install aditional plugins
@@ -116,7 +119,7 @@ fi
 echo "Installing additional requirements.txt ..."
 if [ -e "requirements.txt" ]; then
   cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
-  pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+  pip install --global-option=build --global-option="--executable=python" --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
 fi
 
 # Install shell helpers

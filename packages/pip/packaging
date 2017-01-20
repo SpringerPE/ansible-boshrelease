@@ -33,6 +33,6 @@ done
 export PATH
 
 pushd "pip-${PIP_VERSION}"
-  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
 popd
 

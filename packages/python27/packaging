@@ -26,7 +26,16 @@ export LD_LIBRARY_PATH="${LIBRARY_PATH}"
 
 echo "Building and installing Python ... "
 pushd Python-${PYTHON_VERSION}
-  ./configure --prefix=${BOSH_INSTALL_TARGET}
+  ./configure --enable-optimizations --prefix=${BOSH_INSTALL_TARGET}
   make
   make install
 popd
+
+echo "Removing shebang ... "
+# remove shebang pointing to packages dir
+for pyf in ${BOSH_INSTALL_TARGET}/bin/*; do
+  if file $pyf | grep -q "${BOSH_INSTALL_TARGET}/bin/python2.7"; then
+    echo "Removing shebang: $pyf"
+    sed -i -e "1s:#!${BOSH_INSTALL_TARGET}/bin/python2.7:#!/usr/bin/env python:" $pyf
+  fi
+done
