@@ -33,6 +33,14 @@ done
 export PATH
 
 pushd "pip-${PIP_VERSION}"
-  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py build --executable='/usr/bin/env python' install --prefix=${BOSH_INSTALL_TARGET}
 popd
+
+# remove shebang pointing to packages dir
+for pyf in ${BOSH_INSTALL_TARGET}/bin/*; do
+  if file -b $pyf | grep -iq "python.* script"; then
+    echo "Changing shebang: $pyf"
+    sed -i -e '1s:^#!/var/vcap/packages/python[0-9a-zA-Z_\.-]*/bin/python[0-9a-zA-Z_\.-]*:#!/usr/bin/env python:' $pyf
+  fi
+done
 

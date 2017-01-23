@@ -31,11 +31,11 @@ pushd Python-${PYTHON_VERSION}
   make install
 popd
 
-echo "Removing shebang ... "
 # remove shebang pointing to packages dir
 for pyf in ${BOSH_INSTALL_TARGET}/bin/*; do
-  if file $pyf | grep -q "${BOSH_INSTALL_TARGET}/bin/python2.7"; then
-    echo "Removing shebang: $pyf"
-    sed -i -e "1s:#!${BOSH_INSTALL_TARGET}/bin/python2.7:#!/usr/bin/env python:" $pyf
+  if file -b $pyf | grep -iq "python.* script"; then
+    echo "Changing shebang: $pyf"
+    sed -i -e '1s:^#!/var/vcap/packages/python[0-9a-zA-Z_\.-]*/bin/python[0-9a-zA-Z_\.-]*:#!/usr/bin/env python:' $pyf
   fi
 done
+

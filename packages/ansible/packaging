@@ -77,22 +77,26 @@ export CPATH="${BOSH_INSTALL_TARGET}/include:${CPATH}"
 
 echo "Installing pycrypto ..."
 pushd "pycrypto-${PYCRYPTO_VERSION}"
-  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  # python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing jinja ..."
 pushd "jinja-${JINJA_VERSION}"
-  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  # python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing paramiko ..."
 pushd "paramiko-${PARAMIKO_VERSION}"
-  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  # python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 echo "Installing ansible ..."
 pushd "ansible-${ANSIBLE_VERSION}"
-  python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  # python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
+  python setup.py install --prefix=${BOSH_INSTALL_TARGET}
 popd
 
 # Install aditional plugins
@@ -129,7 +133,8 @@ fi
 echo "Installing additional requirements.txt ..."
 if [ -e "requirements.txt" ]; then
   cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
-  pip install --global-option=build --global-option="--executable=python" --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+  # pip install --global-option=build --global-option="--executable=python" --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+  pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
 fi
 
 # Install shell helpers
