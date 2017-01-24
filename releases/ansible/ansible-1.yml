@@ -11,9 +11,9 @@ packages:
   sha1: 96f649c9dae57f4f3c4df7f1d74efd60210175a1
   dependencies: []
 - name: ansible
-  version: 4a3d86fe3602af49be76fcc7276f020df7ae4c1f
-  fingerprint: 4a3d86fe3602af49be76fcc7276f020df7ae4c1f
-  sha1: 8040f023f5eddc123771d9abbbdc3c18ca20177b
+  version: eb0b6cf4fd4cab5a0be13d2c2bae00679ecca3cc
+  fingerprint: eb0b6cf4fd4cab5a0be13d2c2bae00679ecca3cc
+  sha1: 8b039c782b4563dcda319b587c05b1c68972e0db
   dependencies:
   - bzip2
   - libffi
@@ -76,9 +76,9 @@ jobs:
   fingerprint: b12fcfc903cc2aea0fe80dcb450a75df263ecd17
   sha1: 7ced502392f79cb99d463480485becbb771b377a
 - name: ansible-hooks
-  version: df6c890d957ac87c7d13bc26750e7f0aaff8bb00
-  fingerprint: df6c890d957ac87c7d13bc26750e7f0aaff8bb00
-  sha1: 714764b203ae607ad0da552b6f4fa22a338ebec5
+  version: df65a9100f10d0bdfb5c64521761a7d95514d9cc
+  fingerprint: df65a9100f10d0bdfb5c64521761a7d95514d9cc
+  sha1: 54500b4f6bb1eb4f71068c1c5b2100299bf7ce89
 - name: ansible-distclean
   version: 471c10a5af9306785f38eb7c7dd5692b756c8de9
   fingerprint: 471c10a5af9306785f38eb7c7dd5692b756c8de9
@@ -87,7 +87,7 @@ license:
   version: 068d7540e98ec3bc8a1b437765c2eb9cbdfb2442
   fingerprint: 068d7540e98ec3bc8a1b437765c2eb9cbdfb2442
   sha1: 095aa987069b50fe7ce7cb0d4c2868b66a10ea37
-commit_hash: f12c1253
+commit_hash: e07754a2
 uncommitted_changes: true
-name: ansible-boshrelease
-version: '3'
+name: ansible
+version: '1'

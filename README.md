@@ -101,7 +101,7 @@ After cloning this repository, run:
 It will download all sources specified in the spec file (commented out) of each job, then you
 can create the release with:
 ```
-bosh create release --force --name ansible-boshrelease
+bosh create release --name ansible
 ```
 
 and upload to BOSH director:

@@ -90,5 +90,5 @@ license:
   sha1: 095aa987069b50fe7ce7cb0d4c2868b66a10ea37
 commit_hash: 51f9e857
 uncommitted_changes: true
-name: ansible-boshrelease
+name: ansible
 version: '4'
