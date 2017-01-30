@@ -3,7 +3,7 @@ set -e
 
 RELEASE="ansible"
 DESCRIPTION="Ansible Bosh Release"
-GITHUB_REPO="springernature/datadog-agent-boshrelease"
+GITHUB_REPO="SpringerPE/ansible-boshrelease"
 BUCKET="ansible-boshrelease"
 BOSH=bosh
 S3CMD=s3cmd
