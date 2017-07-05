@@ -41,3 +41,9 @@ for pyf in ${BOSH_INSTALL_TARGET}/bin/*; do
   fi
 done
 
+# remove full path in setuptools.pth
+for pth in $(ls ${BOSH_INSTALL_TARGET}/lib/python*/site-packages/*.pth 2>/dev/null); do
+  echo "Changing full path in: $pth"
+  sed -i -e 's:^/var/vcap/data/packages/.*/site-packages:.:' $pth
+done
+

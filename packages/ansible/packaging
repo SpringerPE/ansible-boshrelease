@@ -137,6 +137,12 @@ if [ -e "requirements.txt" ]; then
   pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
 fi
 
+# remove full path in *.pth
+for pth in $(ls ${BOSH_INSTALL_TARGET}/lib/python*/site-packages/*.pth 2>/dev/null); do
+  echo "Changing full path in: $pth"
+  sed -i -e 's:^/var/vcap/data/packages/.*/site-packages:.:' $pth
+done
+
 # Install shell helpers
 echo "Adding shell helpers ..."
 cp -av _helpers ${BOSH_INSTALL_TARGET}/
