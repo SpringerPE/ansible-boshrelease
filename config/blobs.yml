@@ -79,3 +79,23 @@ libyaml/yaml-0.1.7.tar.gz:
   object_id: 5f44f970-dbd7-4ac9-a2e0-fd97842250f3
   sha: 3590cbf092ef4c71bc0a9b404c00a626b1e04dee
   size: 527518
+ansible/ansible-2.2.3.0.tar.gz:
+  object_id: 01d6db5c-1e5a-49ea-a38d-417bed5fb3ae
+  sha: 683f85ad478786677b95a0684538db458d0f7bfb
+  size: 2512540
+ansible/jinja-2.9.6.tar.gz:
+  object_id: 7cb2c5cc-cc2d-4543-a937-69471b629ddb
+  sha: 22872d7b0d92e118bb11f25e59f413532a83f3ec
+  size: 487185
+ansible/paramiko-2.2.1.tar.gz:
+  object_id: ab0ef313-cab2-4af7-a1d6-93e68c07c34f
+  sha: 48b3d638e07aeb2d0b6e3ec6c3fbd38af3fd787f
+  size: 267771
+setuptools/setuptools-36.0.1.tar.gz:
+  object_id: 55dcf748-76bc-4065-9fa7-8f9f11c1e1fd
+  sha: c8b9d7019eafc6e7b296052b6ee1ca6b0c14d764
+  size: 659748
+openssl/openssl-1.0.2l.tar.gz:
+  object_id: 718e220f-7f15-4717-b010-b66dc3de1302
+  sha: b58d5d0e9cea20e571d903aafa853e2ccd914138
+  size: 5365054
