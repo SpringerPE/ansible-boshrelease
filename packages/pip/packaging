@@ -4,7 +4,7 @@
 set -e -x
 
 # Grab the latest versions that are in the directory
-PIP_VERSION=$(ls -r pip/pip-*.tar.gz | sed 's/.*\/pip-\(.*\)\.tar\.gz$/\1/' | head -1)
+PIP_VERSION=$(ls -r -v pip/pip-*.tar.gz | sed 's/.*\/pip-\(.*\)\.tar\.gz$/\1/' | head -1)
 BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
 
 echo "Extracting pip ${PIP_VERSION} ..."

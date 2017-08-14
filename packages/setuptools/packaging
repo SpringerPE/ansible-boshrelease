@@ -4,7 +4,7 @@
 set -e -x
 
 # Grab the latest versions that are in the directory
-SETUPTOOLS_VERSION=$(ls -r setuptools/setuptools-*.tar.gz | sed 's/.*\/setuptools-\(.*\)\.tar\.gz$/\1/' | head -1)
+SETUPTOOLS_VERSION=$(ls -r -v setuptools/setuptools-*.tar.gz | sed 's/.*\/setuptools-\(.*\)\.tar\.gz$/\1/' | head -1)
 BOSH_PACKAGES_DIR=${BOSH_PACKAGES_DIR:-/var/vcap/packages}
 
 echo "Extracting setuptools ${SETUPTOOLS_VERSION} ... "
