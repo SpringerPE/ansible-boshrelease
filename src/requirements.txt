@@ -1,4 +1,5 @@
 # Aditional packages for extras ansible modules (E)
+idna>=2.6
 cfconfigurator>=0.2.4
 bosh_inventory>=0.2.2
 f5-sdk==1.6.0
