@@ -99,3 +99,7 @@ openssl/openssl-1.0.2l.tar.gz:
   object_id: 718e220f-7f15-4717-b010-b66dc3de1302
   sha: b58d5d0e9cea20e571d903aafa853e2ccd914138
   size: 5365054
+setuptools/setuptools-36.2.7.tar.gz:
+  object_id: 792bb31f-82ec-4c6d-8616-ffdac6444b61
+  sha: 6787491e14de08ac954900c314afe493261c9652
+  size: 664003
