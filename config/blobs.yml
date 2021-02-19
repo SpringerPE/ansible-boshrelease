@@ -36,9 +36,9 @@ openssl/openssl-1.0.2h.tar.gz:
   sha: 577585f5f5d299c44dd3c993d3c0ac7a219e4949
   size: 5274412
 bzip2/bzip2-1.0.6.tar.gz:
-  object_id: 6bb513f9-7a33-4a91-b601-ca79e71e182f
-  sha: 79131d779b948fcbc689441d70d7f5687197b530
-  size: 16207
+  object_id: 2f4afbb1-8b9a-4168-9fdf-76a5507f2a90
+  sha: 3f89f861209ce81a6bab1fd1998c0ef311712002
+  size: 782025
 python/Python-2.7.12.tar.xz:
   object_id: 9d5e93e8-9ed7-4f5d-a513-110fcf8fdf43
   sha: 05360b8ade117b35e266b2004a7f1f11250c6dcd
