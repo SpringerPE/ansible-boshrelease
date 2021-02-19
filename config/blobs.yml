@@ -36,9 +36,9 @@ openssl/openssl-1.0.2h.tar.gz:
   sha: 577585f5f5d299c44dd3c993d3c0ac7a219e4949
   size: 5274412
 bzip2/bzip2-1.0.6.tar.gz:
-  object_id: 6782f1f3-4628-42e9-826d-b1ce123003f2
-  sha: 3f89f861209ce81a6bab1fd1998c0ef311712002
-  size: 782025
+  object_id: 6bb513f9-7a33-4a91-b601-ca79e71e182f
+  sha: 79131d779b948fcbc689441d70d7f5687197b530
+  size: 16207
 python/Python-2.7.12.tar.xz:
   object_id: 9d5e93e8-9ed7-4f5d-a513-110fcf8fdf43
   sha: 05360b8ade117b35e266b2004a7f1f11250c6dcd
@@ -103,3 +103,19 @@ setuptools/setuptools-36.2.7.tar.gz:
   object_id: 792bb31f-82ec-4c6d-8616-ffdac6444b61
   sha: 6787491e14de08ac954900c314afe493261c9652
   size: 664003
+libyaml/yaml-0.2.1.tar.gz:
+  object_id: eb8d73a9-d1e0-4e5d-8def-d6677e94ee05
+  sha: 125a3113681f06320dcdfde48bab47cba9031263
+  size: 599727
+pip/pip-18.1.tar.gz:
+  object_id: fec6e839-f925-4a29-9020-0ec0f8d043fb
+  sha: 1226368a8d39bd8b945517b6f7cb9802b279564e
+  size: 1259370
+python/Python-2.7.15.tar.xz:
+  object_id: c4f3c04f-89d2-436f-af4c-ebe6a474d121
+  sha: f99348a095ec4a6411c84c0d15343d11920c9724
+  size: 12642436
+setuptools/setuptools-40.6.3.tar.gz:
+  object_id: 2cf239b6-d978-4af0-9ea6-4e9023d02c14
+  sha: 77a76b42691fff3794c3e7b5ced27a37145aab36
+  size: 774974
