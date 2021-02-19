@@ -75,6 +75,22 @@ for package_cpath_dir in $(ls -d ${BOSH_PACKAGES_DIR}/*/include 2>/dev/null); do
 done
 export CPATH="${BOSH_INSTALL_TARGET}/include:${CPATH}"
 
+
+# Install additional dependencies
+echo "Installing additional requirements.txt ..."
+if [ -e "requirements.txt" ]; then
+  cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
+  # pip install --global-option=build --global-option="--executable=python" --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+  pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
+fi
+
+# remove full path in *.pth
+for pth in $(ls ${BOSH_INSTALL_TARGET}/lib/python*/site-packages/*.pth 2>/dev/null); do
+  echo "Changing full path in: $pth"
+  sed -i -e 's:^/var/vcap/data/packages/.*/site-packages:.:' $pth
+done
+
+
 echo "Installing pycrypto ..."
 pushd "pycrypto-${PYCRYPTO_VERSION}"
   # python setup.py build --executable='python' install --prefix=${BOSH_INSTALL_TARGET}
@@ -128,20 +144,6 @@ if [ "${roles}" ]; then
     cp -av ${role}/* ${BOSH_INSTALL_TARGET}/roles/
   done
 fi
-
-# Install additional dependencies
-echo "Installing additional requirements.txt ..."
-if [ -e "requirements.txt" ]; then
-  cp -av "requirements.txt" ${BOSH_INSTALL_TARGET}/
-  # pip install --global-option=build --global-option="--executable=python" --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
-  pip install --prefix=${BOSH_INSTALL_TARGET} --compile -r requirements.txt
-fi
-
-# remove full path in *.pth
-for pth in $(ls ${BOSH_INSTALL_TARGET}/lib/python*/site-packages/*.pth 2>/dev/null); do
-  echo "Changing full path in: $pth"
-  sed -i -e 's:^/var/vcap/data/packages/.*/site-packages:.:' $pth
-done
 
 # Install shell helpers
 echo "Adding shell helpers ..."
