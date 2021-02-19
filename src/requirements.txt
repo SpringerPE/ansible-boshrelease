@@ -1,19 +1,8 @@
 MarkupSafe==1.1.1
 # Aditional packages for extras ansible modules (E)
-idna>=2.6
+idna==2.8
 cfconfigurator>=0.2.4
 bosh_inventory>=0.2.2
 f5-sdk==1.6.0
 bigsuds==1.0.4
 netaddr==0.7.19
-boto==2.47.0
-azure==2.0.0
-cs==1.1.1
-docker-py==1.10.6
-# docker-compose==1.14.0
-apache-libcloud==2.0.0
-shade==1.22.2
-pyvmomi==6.5
-python-consul==0.7.0
-datadog==0.16.0
-zabbix-api==0.4
